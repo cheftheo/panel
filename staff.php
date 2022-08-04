@@ -52,9 +52,9 @@ include("session.php");
             <h4>Staff</h4>
             <div class="tabs-container">
                 <ul class="nav nav-tabs customtab nav-fill">
-                    <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#tab-admins" aria-expanded="true"> Admins (<?php echo $adminson[0];?>/28)</a></li>
+                    <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#tab-admins" aria-expanded="true"> Admins </a></li>
                     <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab-leaders" aria-expanded="false">
-						Leaders (<?php echo $leaderson[0];?>/18)</a></li>
+						Leaders </a></li>
                 </ul>
             </div>
             <div class="tab-content">

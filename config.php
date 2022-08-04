@@ -15,12 +15,13 @@ if ($paneldb->error) {
 date_default_timezone_set('Europe/Bucharest');
 
 $author = "chef theo";
-$serverURL = "http://localhost/";
+// https://8000-cheftheo-panel-0rucdsj0lf7.ws-eu54.gitpod.io/
+$serverURL = "https://8000-cheftheo-panel-0rucdsj0lf7.ws-eu54.gitpod.io/";
 $serverName = "Thor";
 
 $onlineString = "Offline";
 $curl_handle=curl_init();
-// obae3v
+// obae3v -- white romania parca drq sa-l ia;
 curl_setopt($curl_handle, CURLOPT_URL,'https://servers-frontend.fivem.net/api/servers/single/obae3v');
 curl_setopt($curl_handle, CURLOPT_CONNECTTIMEOUT, 2);
 curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, 1);
@@ -53,10 +54,12 @@ function checkOnlineUser($username) {
 
 	foreach ($allPlayers as $player) {
 		if ($player->{'name'} == $username) {
-			echo "L-am gasit pe ".$username;
+			return true;
 			break;
 		}
 	}
+
+	return false;
 }
 
 function returnPlayerListName(){
@@ -65,7 +68,7 @@ function returnPlayerListName(){
 	$allPlayers = $queriedSvData->{'Data'}->{"players"};
 	$playersList[] = array();
 	foreach ($allPlayers as $player) {
-		$playersList[] = $player->{'name'};
+		$playersList[] = [0=>$player->{'identifiers'},1=>$player->{'name'}];
 	}
 
 	return $playersList;
@@ -91,12 +94,12 @@ function getUsernameFromId($id) {
 	return $usernameQueried[0];
 }
 
-function getIdFromUsername($username) {
+function getIdByGtaLicense($lic) {
 	global $db;
-	$queryUsername = $db->query("SELECT `id` FROM `users` WHERE `username` = '$username'") or die($db->error);
+	$queryUsername = $db->query("SELECT `user_id` FROM `vrp_user_ids` WHERE `identifier` = '$lic[0]'") or die($db->error);
 	$idQueried = $queryUsername->fetch_row();
 
-	return $idQueried;
+	return $idQueried[0];
 }
 
 function date_time( $date ) {
@@ -153,9 +156,13 @@ function get_faction($id) {
 }
 
 function getLoginData($data){ 
-	$theSeconda2 = explode(" ",$data);
+	if ($data) {
+		$theSeconda2 = explode(" ",$data);
 
-	echo $theSeconda2[1] . " " . $theSeconda2[2];
+		echo $theSeconda2[1] . " " . $theSeconda2[2];
+	} else {
+		echo "No data";
+	}
 }
 
 function getUserPhone($id) {
@@ -292,6 +299,10 @@ function check_app($params) {
 	if($rezultatfac["Status"] == 3) {
 		echo "Rejected";
 	}
+}
+
+function alert($txt) {
+	echo "<script>alert('$txt')</script>";
 }
 
 function go($params) {

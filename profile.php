@@ -1,10 +1,10 @@
 <?php
 include("session.php");
-if(!isset($_GET['user'])) {
+if((!isset($_GET['user']) or empty($_GET['user'])) and $_GET['user'] != 0) {
 	go("/");
 }
 $user_id = $_GET['user'];
-if (!$user_id) {
+if (!isset($user_id) or intval($user_id) < 0) {
 	go("/");
 }
 $username = getUsernameFromId($user_id);
@@ -84,7 +84,7 @@ while($row = $result->fetch_assoc()) { ?>
 				<div class="card">
 					<div class="card-body">
 						<center class="m-t-30"> 
-							<h4 class="card-title m-t-10"><?php if($row["StatusOnline"] == 0) { ?> <i class="fa fa-circle fa-fw" style="color:red;"></i> <?php }else{ ?> <i class="fa fa-circle fa-fw" style="color:green;"></i> <?php } ?> <?php echo $row["username"] ?></h4>
+							<h4 class="card-title m-t-10"><?php if(checkOnlineUser($row['username'])) { ?> <i class="fa fa-circle fa-fw" style="color:green;"></i> <?php }else{ ?> <i class="fa fa-circle fa-fw" style="color:red;"></i> <?php } ?> <?php echo $row["username"] ?></h4>
 							<?php if($row["id"] == 0) { ?>
 							<span class="badge badge-primary" style="background-color:#ff0000;"><i class="fa fa-cog"></i> Dev</span>
 							<?php } ?>
@@ -105,7 +105,7 @@ while($row = $result->fetch_assoc()) { ?>
 						<li class="nav-item"> <a class="nav-link  active " data-toggle="tab" href="#home" role="tab">Profile</a> </li>
 						<?php
 						if(isset($_SESSION['Username'])){
-							if(mysqli_real_escape_string($db, $_GET['user']) == $_SESSION['Username']) { ?>
+							if(mysqli_real_escape_string($db, $_GET['user']) == $_SESSION['user_id']) { ?>
 								<li class="nav-item"> <a class="nav-link " data-toggle="tab" href="#settings" role="tab">Account Setting</a> </li>
 						<?php }} ?>
 

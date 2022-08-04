@@ -18,12 +18,12 @@
                         }
                     ?>
                     </h4>
-					<a href="<?=$serverURL;?>user/<?php echo $_SESSION['Username']; ?>" class="dropdown-toggle u-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="mdi mdi-settings"></i></a>
+					<a href="<?=$serverURL;?>profile.php?user=<?php echo $_SESSION['user_id']?>; ?>" class="dropdown-toggle u-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="mdi mdi-settings"></i></a>
 					<a href="<?=$serverURL;?>logout.php" class="" data-toggle="tooltip" title="" data-original-title="Logout"><i class="mdi mdi-power"></i></a>
 
 					<div class="dropdown-menu animated flipInY" x-placement="bottom-start" style="position: absolute; transform: translate3d(76px, 54px, 0px); top: 0px; left: 0px; will-change: transform;">
 						<!-- text-->
-						<a href="<?=$serverURL;?>user/<?php echo $_SESSION['Username']; ?>" class="dropdown-item"><i class="ti-user"></i> My
+						<a href="<?=$serverURL;?>profile.php?user=<?php echo $_SESSION['user_id']?>; ?>" class="dropdown-item"><i class="ti-user"></i> My
 							Profile</a>
 						<!-- text-->
 						<div class="dropdown-divider"></div>

@@ -66,7 +66,7 @@ include("session.php");
 									<tr>
 										<td><a href="<?=$serverURL;?>profile.php?user=<?=$row["id"];?>"><?=$row["username"];?></a></td>
 										<td><?=$row["banadmin"];?></td>
-										<td><?php if($row["bantime"] == "perm" or !$row['bantime'] or ) { echo "Permanent"; } else { echo date("d M Y H:i (d-m-y)", $row["bantime"]); } ?></td>
+										<td><?php if($row["bantime"] == "perm" or !$row['bantime']) { echo "Permanent"; } else { echo date("d M Y H:i (d-m-y)", $row["bantime"]); } ?></td>
 										<td><?=$row["banreason"];?></td>
 									</tr>
 								<?php

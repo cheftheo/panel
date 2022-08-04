@@ -46,35 +46,36 @@ include("session.php");
             </div>
 
             <div class="container-fluid">
-
                 <div class="card">
                     <div class="card-body">
                         <h4>Online</h4>
                         <table class="table table-bordered table-hover table-bordered">
                             <thead>
                                 <tr>
+                                    <th>id</th>
                                     <th>Username</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php
-                                $players = returnPlayerListName();
-                                // $selectonline = "SELECT * FROM `users` where StatusOnline='1'";
-                                // $result = $db->query($selectonline);
-                                foreach ($players as $player) {
-                                    // $gicuJucatoru = getIdFromUsername($player);
+                                    $players = returnPlayerListName();
+                                    foreach ($players as $player) {
+                                    if (isset($player)) {
+                                        ?>
+                                            <tr>
+                                                <td>
+                                                    <a href="<?=$serverURL;?>profile.php?user=<?php echo getIdByGtaLicense($player[0]);?>">
+                                                        <?php echo getIdByGtaLicense($player[0]); ?>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <?php echo $player[1]; ?>
+                                                </td>
+                                            </tr>
+                                        <?php
+                                        }
+                                    }
                                 ?>
-                                    <tr>
-                                        <td>
-                                            <a href="<?=$serverURL;?>profile.php?user=<?php echo $player;?>">
-                                                <?php echo $player; ?>
-                                            </a>
-                                        </td>
-                                       
-                                <?php
-                                }
-                                ?>
-
                             </tbody>
                         </table>
                     </div>
