@@ -263,7 +263,7 @@ if($errors){ echo "<script>alert('Ai gresit parola. Reincearca.')</script>"; }
                                 <div><input type="text" name="name1" placeholder="Name" class="form-control"></div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label">Passowd</label>
+                                <label class="control-label">Password</label>
                                 <div><input type="password" name="password1" placeholder="Password" class="form-control"></div>
                             </div>
                             <div class="form-group">

@@ -1,39 +1,60 @@
 <?php
 include("config.php");
 if(!isset($_SESSION['Username'])){
-    $myusername1 = $_POST['name1'];
+    session_start();
+    $errors = array();
+    if($_SERVER["REQUEST_METHOD"] == "POST") {
+        if(isset($_POST['usernameReg']) and isset($_POST['mailReg']) and isset($_POST['passwordReg']) and isset($_POST['panelcode']) and isset($_POST['cpasswordReg'])) {
+            if(!empty($_POST['usernameReg']) and !empty($_POST['mailReg']) and !empty($_POST['passwordReg']) and !empty($_POST['panelcode']) and !empty($_POST['cpasswordReg'])) {
+                if (strlen($_POST['usernameReg']) > 3) {
+                    if ($_POST['passwordReg'] == $_POST['cpasswordReg']) {  
+                        if (str_contains($_POST['mailReg'], "@") and str_contains($_POST['mailReg'], ".")) {
+                                $theUsername = $_POST['usernameReg'];
+                                $thePass = $_POST['passwordReg'];
+                                $theMail = $_POST['mailReg'];
+                                $theCode = $_POST['panelcode'];
 
-    // post -> name1, password1, mail1
-    $theCode = $_POST['panelcode'];
-    $checkPanelCodeQ = $db->query("SELECT * from `users` WHERE `panelCode` = '$theCode'");
-    $registerData = $checkPanelCodeQ->fetch_assoc();
-    if ($registerData) {
-        if ($registerData["panelCode"] == $_POST['panelcode']) {
-            if ($registerData["username"] !== $myusername1) {
-                if ($registerData["mail"] !== $_POST['mail1']) {
-                    
-                    // Create panel-user in db
-                    $sql = $db->query("INSERT INTO panel_users(id,username,password,mail) VALUES(".registerData["id"].",".$myusername1.",".$_POST['password1'].",".$_POST['mail1'].")");
-                    if ($db->query($sql) === TRUE) {
-                        $_SESSION['Username'] = $myusername1;
-                        $_SESSION['Email'] = $row["mail1"];
-                        $_SESSION['user_id'] = $row["id"];
-                        go("/");
+                                $fetchServerId = db->query("SELECT * FROM `users` WHERE `panelcode` = '$theCode'");
+                                $result = mysqli_query($db,$fetchServerId);
+                                $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+                                
+                                $count = mysqli_num_rows($result);
+                                        
+                                if($count == 1) {
+                                    $sql = $paneldb->query("INSERT INTO users(username,password,mail,gameid,admin) VALUES(".$theUsername.",".$thePass.",".$theMail.",".$result['id'].",".$result['adminLvl'].")");
+                                    if ($paneldb->query($sql) === TRUE) {
+                                        $_SESSION['Username'] = $theUsername;
+                                        $_SESSION['staff'] = $row["mail1"];
+                                        $_SESSION['user_id'] = $result["id"];
+                                        go("/");
+                                    }else {
+
+                                    }
+                                } else {
+                                    $errors = "parola gresita";
+                                };
+                        } else {
+        
+                        }
                     } else {
-                        echo "<script>alert('razike sugi pula')</script>";
-
+                        
                     }
                 } else {
-                    echo "<script>alert('razike sugi pula')</script>";
+
                 }
-            } else { 
-                echo "<script>alert('razike sugi pula')</script>";
+            } else {
+
             }
         } else {
-            echo "<script>alert('razike sugi pula')</script>";
+
         }
-    }
+    } 
+}else{
+    include('session.php');
 }
+
+if($errors){ echo "<script>alert('Ai gresit parola. Reincearca.')</script>"; }
+
 ?>
 
 <!DOCTYPE html>
@@ -90,27 +111,27 @@ if(!isset($_SESSION['Username'])){
                             <h3 class="box-title m-b-20">Register</h3>
                             <div class="form-group ">
                                 <div class="col-xs-12">
-                                    <input class="form-control" type="text" name="username22" required=""
+                                    <input class="form-control" type="text" name="usernameReg" required=""
                                         placeholder="Username"> </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-xs-12">
-                                    <input class="form-control" type="password" name="password22" required=""
+                                    <input class="form-control" type="password" name="passwordReg" required=""
                                         placeholder="Password"> </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-xs-12">
-                                    <input class="form-control" type="password" name="cpassword2" required=""
+                                    <input class="form-control" type="password" name="cpasswordReg" required=""
                                         placeholder="Confirm Password"> </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-xs-12">
-                                    <input class="form-control" type="text" name="mail22" required=""
+                                    <input class="form-control" type="text" name="mailReg" required=""
                                         placeholder="Email"> </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-xs-12">
-                                    <input class="form-control" type="text" name="panelcode2" required=""
+                                    <input class="form-control" type="text" name="panelcode" required=""
                                         placeholder="Panel Code"> </div>
                             </div>
 
@@ -118,7 +139,7 @@ if(!isset($_SESSION['Username'])){
                                 <div class="col-xs-12">
                                     <button
                                         class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light"
-                                        type="submit"><i class="fa fa-lock m-r-5"></i> Log In</button>
+                                        type="submit"><i class="fa fa-lock m-r-5"></i> Register</button>
                                 </div>
                             </div>
 

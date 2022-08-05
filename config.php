@@ -15,8 +15,7 @@ if ($paneldb->error) {
 date_default_timezone_set('Europe/Bucharest');
 
 $author = "chef theo";
-// https://8000-cheftheo-panel-0rucdsj0lf7.ws-eu54.gitpod.io/
-$serverURL = "https://8000-cheftheo-panel-0rucdsj0lf7.ws-eu54.gitpod.io/";
+$serverURL = "https://8000-cheftheo-panel-0rucdsj0lf7.ws-eu59.gitpod.io/";
 $serverName = "Thor";
 
 $onlineString = "Offline";
@@ -42,10 +41,6 @@ $result1 = $db->query("SELECT COUNT(*) FROM `users`");
 $accountCreated = $result1->fetch_row();
 $result2 = $db->query("SELECT COUNT(*) FROM `user_vehicles`");
 $vehicles = $result2->fetch_row();
-$result4 = $db->query("SELECT COUNT(*) FROM `users` WHERE adminLvl > 0 AND StatusOnline = 1");
-$adminson = $result4->fetch_row();
-$result6 = $db->query("SELECT COUNT(*) FROM `users` WHERE isFactionLeader > 0 AND StatusOnline = 1");
-$leaderson = $result6->fetch_row();
 
 function checkOnlineUser($username) {
 	global $onlineString;
