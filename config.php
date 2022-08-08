@@ -16,6 +16,7 @@ date_default_timezone_set('Europe/Bucharest');
 
 $author = "chef theo";
 $serverURL = "https://8000-cheftheo-panel-0rucdsj0lf7.ws-eu59.gitpod.io/";
+// $serverURL = "http://localhost:8000/";
 $serverName = "Thor";
 
 $onlineString = "Offline";
@@ -166,18 +167,6 @@ function getUserPhone($id) {
 	$thePhoneNumber = $faf4fga4ga4g1->fetch_assoc();
 
 	echo $thePhoneNumber[0];
-}
-
-function get_job($id) {
-	if($id == 0) {
-		echo "N/A";
-	}else{
-		$url = "./json/jobs.json";
-		$data = file_get_contents($url);
-		
-		$character = json_decode($data);
-		echo $character->{$id};
-	}
 }
 
 function crypto_rand_secure($min, $max)

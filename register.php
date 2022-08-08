@@ -14,21 +14,21 @@ if(!isset($_SESSION['Username'])){
                                 $theMail = $_POST['mailReg'];
                                 $theCode = $_POST['panelcode'];
 
-                                $fetchServerId = db->query("SELECT * FROM `users` WHERE `panelcode` = '$theCode'");
-                                $result = mysqli_query($db,$fetchServerId);
-                                $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
-                                
-                                $count = mysqli_num_rows($result);
-                                        
-                                if($count == 1) {
-                                    $sql = $paneldb->query("INSERT INTO users(username,password,mail,gameid,admin) VALUES(".$theUsername.",".$thePass.",".$theMail.",".$result['id'].",".$result['adminLvl'].")");
-                                    if ($paneldb->query($sql) === TRUE) {
+                                $fetchServerId = mysqli_query($db, "SELECT * FROM `users` WHERE `panelcode` = '$theCode'");
+                                $followingdata = $fetchServerId->fetch_assoc();
+
+
+                                if($fetchServerId) {
+                                    $idplm = $followingdata['id'];
+                                    $atmin = $followingdata['adminLvl'];
+                                    $sql = mysqli_query($paneldb,"INSERT INTO `users`(`username`,`pass`,`mail`,`gameid`,`admin`) VALUES('".$theUsername."','".$thePass."','".$theMail."','".$idplm."','".$atmin."')");
+                                    if ($sql) {
                                         $_SESSION['Username'] = $theUsername;
-                                        $_SESSION['staff'] = $row["mail1"];
-                                        $_SESSION['user_id'] = $result["id"];
+                                        $_SESSION['staff'] = $atmin;
+                                        $_SESSION['user_id'] = $idplm;
                                         go("/");
                                     }else {
-
+                                        $errors = "a facut pok";
                                     }
                                 } else {
                                     $errors = "parola gresita";
@@ -51,6 +51,7 @@ if(!isset($_SESSION['Username'])){
     } 
 }else{
     include('session.php');
+    go("/");
 }
 
 if($errors){ echo "<script>alert('Ai gresit parola. Reincearca.')</script>"; }

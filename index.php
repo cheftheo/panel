@@ -19,7 +19,8 @@ if(!isset($_SESSION['Username'])){
             if($count == 1) {
                 $_SESSION['Username'] = $row["username"];
                 $_SESSION['staff'] = $row['admin'];
-                $_SESSION['user_id'] = $row["id"];
+                $_SESSION['user_id'] = $row["gameid"];
+                $_SESSION['Email'] = $row['mail'];
             } else {
                 $errors = "parola gresita";
             };

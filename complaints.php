@@ -25,7 +25,6 @@ $item_per_page 		= 5;
 
 </head>
 
-<!-- Ce faci coaie, te uiti la coduri? Sugi pula bă -->
 <script type="text/javascript">
 $(document).ready(function() {
 	$("#results" ).load( "paginatie_complaints.php");

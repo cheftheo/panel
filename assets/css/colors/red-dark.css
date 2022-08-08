@@ -26,26 +26,6 @@ File: scss
   background: #fff;
 }
 
-*::-webkit-scrollbar {
-  width: 3px;
-}
-
-/* Track */
-*::-webkit-scrollbar-track {
-  background: #3d3c2f;
-}
-
-/* Handle */
-*::-webkit-scrollbar-thumb {
-  background: rgb(117, 116, 84);
-}
-
-/* Handle on hover */
-*::-webkit-scrollbar-thumb:hover {
-  background: rgb(158, 156, 90);
-}
-
-
 .preloader .cssload-speeding-wheel {
   position: absolute;
   top: calc(50% - 3.5px);
