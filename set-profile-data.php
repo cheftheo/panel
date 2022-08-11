@@ -66,6 +66,14 @@ if(isset($_SESSION["Username"])) {
 			} else {
 				go("/");
 			}
+		} elseif ($type == "unban") {
+			$banQuery = "UPDATE `users` SET banned = '0', banreason = 'panel_unbanned', bantime = '0', banadmin = '', adminLvl = '0' WHERE id='$user'";
+
+			if ($db->query($banQuery) === TRUE) {
+				go($link);
+			} else {
+				echo "Error updating record: " . $db->error;
+			}
 		}
 	}else{
 		go("/");

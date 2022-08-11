@@ -98,6 +98,14 @@ function getIdByGtaLicense($lic) {
 	return $idQueried[0];
 }
 
+function checkUserAdmin($id) {
+	global $db;
+	$queryAdm = $db->query("SELECT `adminLvl` FROM `users` WHERE `id` = '$id'") or die($db->error);
+	$admQueried = $queryAdm->fetch_row();
+
+	return $admQueried[0];
+}
+
 function date_time( $date ) {
     if( $date == "" ){
         return "";

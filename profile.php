@@ -205,107 +205,81 @@ while($row = $result->fetch_assoc()) { ?>
 						</div>
 
 						<div class="tab-pane" id="profile" role="tabpanel">
-						<div class="card-body">
-							<h4>Personal Vehicles</h4>
-							<hr>
-							<table class="table profile-cars table-hover">
-								<thead>
-									<tr>
-										<th class="text-center">Car ID</th>
-										<th class="text-center">Name</th>
-										<th class="text-center">Model</th>
-										<th class="text-center">Odometer</th>
-										<th class="text-center">Plate</th>
-										<th class="text-center">Stage</th>
-										<th class="text-center">Premium</th>
-									</tr>
-								</thead>
-								<tbody>
-									<?php
-									$selectCars = "SELECT * FROM `user_vehicles` WHERE `user_id`='".$row["id"]."'";
-									$result = mysqli_query($db, $selectCars);
-									if (mysqli_num_rows($result) > 0) {
-										while($row1 = mysqli_fetch_assoc($result)) {?>
-											<tr>
-												<td class="text-center">
-													<?php echo $row1["id"];?>
-												</td>
-												<td class="text-center">
-													<?php echo $row1["vehName"];?>
-												</td>
-												<td class="text-center">
-													<?php echo $row1["vehicle"]; ?>
-												</td>
-												<td class="text-center">
-													<?php echo $row1["odometer"]; ?> KM
-												</td>
-												<td class="text-center">
-													<?php echo $row1["vehicle_plate"]; ?>
-												</td>
-												<td class="text-center">
-													<?php echo $row1["stage"]; ?>
-												</td>
-												<td class="text-center">
-													<?php if ($row1['premium']) {echo "Da";} else {echo "Nu";} ?>
-												</td>
-											</tr>
+							<div class="card-body">
+								<h4>Personal Vehicles</h4>
+								<table class="table profile-cars table-hover">
+									<thead>
+										<tr>
+											<th class="text-center"></th>
+											<th class="text-center">Car ID</th>
+											<th class="text-center">Name</th>
+											<th class="text-center">Model</th>
+											<th class="text-center">Odometer</th>
+											<th class="text-center">Plate</th>
+											<th class="text-center">Days</th>
+										</tr>
+									</thead>
+									<tbody>
 										<?php
-										}
-									} else {
-										//echo "0 results";
-									}
-									?>
-								</tbody>
-							</table>
-							<h4>Properties</h4>
-							<hr>
-							
-							<div class="row">
-								<?php
-								$sql = "SELECT * FROM vrp_user_homes WHERE user_id = '".$row["id"]."'";
-								$result = $db->query($sql);
+										$selectCars = "SELECT * FROM `user_vehicles` WHERE `user_id`='".$row["id"]."'";
+										$result = mysqli_query($db, $selectCars);
+										if (mysqli_num_rows($result) > 0) {
+											while($row1 = mysqli_fetch_assoc($result)) {?>
+												<tr>
+													<?php 
+													if (isset($_SESSION['user_id'])) {
+														if (checkUserAdmin($_SESSION['user_id']) >= 4) { ?>
+																<td type="button" class="btn btn-danger">
+																	delete veh
+																</td>
+													<?php 
+														}
+													} 
+													?>
+													<td class="text-center">
+														<?php echo $row1["id"];?>
+													</td>
+													<td class="text-center">
+														<?php 
+															$vehName = $row1['vehName'];
+															if ($row1['premium']) {
+																$vehName = $vehName . " <t class = 'text-warning'>[P]</t>";
+															}
+															if ($row1['stage']) {
+																$vehName = $vehName . ' <t class = "text-primary">[S:'.$row1["stage"].']</t>';
+															}
 
-								if ($result->num_rows > 0) {
-									while($row1 = $result->fetch_assoc()) {
-									?>
-									<div class="col-md-4">
-										<div style="text-align: center;" id="gallery" class="gallery">
-										<div class="_property">
-											<div class="image-info">
-												<h5 class="title">
-													<i class="fa fa-home"></i>
-													House ID #<?=$row1["ID"];?> 												</h5>
-												<div class="pull-right"><b><?=calculeazabani($row1["Value"])?>
-														$</b></div>
-												<div>Price</div>
-												<div class="pull-right"><b><?=$row1["Rent"]?>
-														$</b></div>
-												<div>Rent</div>
-												<div class="pull-right"><b>
-														<span class="red"><?php if($row1["Lockk"] == 1) { ?> Locked <?php }else{ ?> Unlocked <?php } ?></span>
-													</b></div>
-												<div>Status</div>
-											</div>
-										</div>
-									</div>
-																	</div>
-									<?php
-									}
-								}else {
-									?>
-								<div class="col-md-4">
-								<div class="alert alert-warning">
-								No House
-								</div>
-								</div>
-									<?php
-								}
-								
-								?>
-								
+															echo $vehName;
+														?>
+													</td>
+													<td class="text-center">
+														<?php echo $row1["vehicle"]; ?>
+													</td>
+													<td class="text-center">
+														<?php echo $row1["odometer"]; ?> KM
+													</td>
+													<td class="text-center">
+														<?php echo $row1["vehicle_plate"]; ?>
+													</td>
+													<td class="text-center">
+														<?php 
+														$date1 = new DateTime($row1['days']);
+														$date2 = new DateTime();
+
+														echo $date1->diff($date2)->days;
+														?>
+													</td>
+												</tr>
+											<?php
+											}
+										} else {
+											//echo "0 results";
+										}
+										?>
+									</tbody>
+								</table>
 							</div>
 						</div>
-					</div>
 
 						<div id="admintool" role="tabpanel" class="tab-pane">
 							<div class="row">
